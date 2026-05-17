@@ -143,7 +143,7 @@ Open [http://localhost:3000](http://localhost:3000)
 ---
 
 ## API Reference
-
+```text
 | Method | Endpoint  | Description |
 |---|---|---|---|
 | `POST` | `/api/register` | Create user account |
@@ -157,6 +157,7 @@ Open [http://localhost:3000](http://localhost:3000)
 | `DELETE` | `/api/notes/share` | Revoke public share link |
 | `POST` | `/api/ai/generate` | Generate AI insights for a note |
 | `GET` | `/api/dashboard/stats` | Get productivity statistics |
+```
 
 ### Example: AI Generate Response
 
