@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Prevent bundling of server-only Node.js packages
+  // Prevent bundling of server-only Node.js packages.
+  // This also prevents duplicate React instances from packages
+  // that bundle their own copy of React (next-auth, etc.).
   serverExternalPackages: [
     "openai",
     "@prisma/client",
@@ -9,6 +11,7 @@ const nextConfig: NextConfig = {
     "bcryptjs",
     "@auth/prisma-adapter",
     "next-auth",
+    "@auth/core",
   ],
 
   images: {

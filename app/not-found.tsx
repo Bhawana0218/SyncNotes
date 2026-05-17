@@ -1,5 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import { Zap, ArrowLeft } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import Logo from "@/public/Logo.png";
 import Image from "next/image";
 
