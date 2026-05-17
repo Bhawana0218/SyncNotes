@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSession, signOut } from "next-auth/react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   User, Bell, Shield, Palette, LogOut, Save,
@@ -9,7 +8,8 @@ import {
   Mail, Lock, Smartphone, Eye, EyeOff, Loader2,
 } from "lucide-react";
 import { toast } from "sonner";
-import { useTheme } from "next-themes";
+import { useTheme } from "@/providers/theme-provider";
+import { useSession, signOut } from "next-auth/react";
 
 /* ── Types ── */
 type TabId = "profile" | "appearance" | "notifications" | "security";

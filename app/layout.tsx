@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import Providers from "@/providers/providers";
+import { SessionProvider } from "@/providers/session-provider";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -47,18 +48,41 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+const themeScript = `
+(function(){
+  try {
+    var t = localStorage.getItem('syncnotes-theme') || 'dark';
+    var resolved = t === 'system'
+      ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+      : t;
+    if (resolved === 'light') {
+      document.documentElement.classList.add('light');
+      document.documentElement.classList.remove('dark');
+    } else {
+      document.documentElement.classList.add('dark');
+      document.documentElement.classList.remove('light');
+    }
+  } catch(e) {}
+})();
+`.trim();
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={inter.variable}>
+    <html lang="en" suppressHydrationWarning className={`dark ${inter.variable}`}>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
+      </head>
       <body className="font-sans antialiased">
-        <Providers>
-          {children}
-          <Toaster richColors position="bottom-right" />
-        </Providers>
+        <SessionProvider>
+          <ThemeProvider>
+            {children}
+            <Toaster richColors position="bottom-right" />
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );
