@@ -1,11 +1,13 @@
 import { prisma } from "@/lib/prisma";
 import type { Metadata } from "next";
-import { Sparkles, Globe, ArrowLeft, Tag, Clock, Zap } from "lucide-react";
+import { Sparkles, Globe, ArrowLeft, Tag, Clock } from "lucide-react";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Logo from "@/public/Logo.png";
+
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,

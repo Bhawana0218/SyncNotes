@@ -3,6 +3,8 @@ import { openai } from "@/lib/openai";
 import { prisma } from "@/lib/prisma";
 import { buildPrompt } from "@/lib/ai-prompts";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const session = await auth();
@@ -69,7 +71,7 @@ export async function POST(req: Request) {
       return Response.json({ error: "Empty AI response" }, { status: 500 });
     }
 
-    // 🧠 SAFE PARSE (IMPORTANT FIX)
+    
     let parsed;
     try {
       raw = raw.replace(/```json|```/g, "").trim();
