@@ -179,7 +179,7 @@ export function ReminderDialog({ open, onOpenChange, defaultDate, editReminder }
                     mode="single"
                     selected={date}
                     onSelect={(d) => { if (d) { setDate(d); setCalOpen(false); } }}
-                    initialFocus
+                
                   />
                 </PopoverContent>
               </Popover>
