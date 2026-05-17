@@ -11,6 +11,13 @@ const nextConfig: NextConfig = {
     "next-auth",
   ],
 
+  // Provide a dummy DATABASE_URL at build time so Prisma client
+  // can be instantiated without crashing during static analysis.
+  // The real value is injected at runtime via environment variables.
+  env: {
+    DATABASE_URL: process.env.DATABASE_URL ?? "postgresql://build:build@localhost:5432/build",
+  },
+
   images: {
     remotePatterns: [
       {
@@ -24,34 +31,20 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  // Security headers
   async headers() {
     return [
       {
         source: "/(.*)",
         headers: [
-          {
-            key: "X-Frame-Options",
-            value: "DENY",
-          },
-          {
-            key: "X-Content-Type-Options",
-            value: "nosniff",
-          },
-          {
-            key: "Referrer-Policy",
-            value: "strict-origin-when-cross-origin",
-          },
-          {
-            key: "Permissions-Policy",
-            value: "camera=(), microphone=(), geolocation=()",
-          },
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
         ],
       },
     ];
   },
 
-  // Redirect /share/:id to /shared/:id for backwards compatibility
   async redirects() {
     return [
       {
