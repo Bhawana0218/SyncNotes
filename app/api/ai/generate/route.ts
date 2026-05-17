@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { buildPrompt } from "@/lib/ai-prompts";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {

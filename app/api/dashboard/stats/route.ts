@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { startOfWeek, subDays, format } from "date-fns";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export async function GET() {
   const session = await auth();

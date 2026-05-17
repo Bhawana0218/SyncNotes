@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { v4 as uuid } from "uuid";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export async function POST(req: Request) {
   try {

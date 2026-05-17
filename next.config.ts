@@ -1,6 +1,16 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Prevent bundling of server-only Node.js packages
+  serverExternalPackages: [
+    "openai",
+    "@prisma/client",
+    "prisma",
+    "bcryptjs",
+    "@auth/prisma-adapter",
+    "next-auth",
+  ],
+
   images: {
     remotePatterns: [
       {
