@@ -2,6 +2,8 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import Image from "next/image";
 
+export const dynamic = 'force-dynamic';
+
 export default function NotFound() {
   return (
     <main className="min-h-screen bg-black text-white flex items-center justify-center px-6">
