@@ -1,9 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/providers/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
-import { SessionProvider } from "@/providers/session-provider";
+import Providers from "@/providers/providers";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -56,12 +55,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning className={inter.variable}>
       <body className="font-sans antialiased">
-        <SessionProvider>
-          <ThemeProvider>
-            {children}
-            <Toaster richColors position="bottom-right" />
-          </ThemeProvider>
-        </SessionProvider>
+        <Providers>
+          {children}
+          <Toaster richColors position="bottom-right" />
+        </Providers>
       </body>
     </html>
   );
