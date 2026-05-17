@@ -144,19 +144,19 @@ Open [http://localhost:3000](http://localhost:3000)
 
 ## API Reference
 
-| Method | Endpoint | Auth | Description |
+| Method | Endpoint  | Description |
 |---|---|---|---|
-| `POST` | `/api/register` | ❌ | Create user account |
-| `POST` | `/api/auth/[...nextauth]` | ❌ | NextAuth handler |
-| `GET` | `/api/notes` | ✅ | List notes (supports `?search=`, `?tag=`, `?archived=`) |
-| `POST` | `/api/notes` | ✅ | Create new note |
-| `GET` | `/api/notes/:id` | ✅ | Get single note |
-| `PATCH` | `/api/notes/:id` | ✅ | Update note (ownership verified) |
-| `DELETE` | `/api/notes/:id` | ✅ | Delete note (ownership verified) |
-| `POST` | `/api/notes/share` | ✅ | Generate public share link |
-| `DELETE` | `/api/notes/share` | ✅ | Revoke public share link |
-| `POST` | `/api/ai/generate` | ✅ | Generate AI insights for a note |
-| `GET` | `/api/dashboard/stats` | ✅ | Get productivity statistics |
+| `POST` | `/api/register` | Create user account |
+| `POST` | `/api/auth/[...nextauth]` | NextAuth handler |
+| `GET` | `/api/notes` | List notes (supports `?search=`, `?tag=`, `?archived=`) |
+| `POST` | `/api/notes` | Create new note |
+| `GET` | `/api/notes/:id` | Get single note |
+| `PATCH` | `/api/notes/:id` | Update note (ownership verified) |
+| `DELETE` | `/api/notes/:id` | Delete note (ownership verified) |
+| `POST` | `/api/notes/share` | Generate public share link |
+| `DELETE` | `/api/notes/share` | Revoke public share link |
+| `POST` | `/api/ai/generate` | Generate AI insights for a note |
+| `GET` | `/api/dashboard/stats` | Get productivity statistics |
 
 ### Example: AI Generate Response
 
