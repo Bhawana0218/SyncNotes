@@ -11,13 +11,6 @@ const nextConfig: NextConfig = {
     "next-auth",
   ],
 
-  // Provide a dummy DATABASE_URL at build time so Prisma client
-  // can be instantiated without crashing during static analysis.
-  // The real value is injected at runtime via environment variables.
-  env: {
-    DATABASE_URL: process.env.DATABASE_URL ?? "postgresql://build:build@localhost:5432/build",
-  },
-
   images: {
     remotePatterns: [
       {

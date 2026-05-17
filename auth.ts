@@ -8,6 +8,9 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "@/lib/prisma";
 import bcrypt from "bcryptjs";
 
+// authOptions is a plain object — no DB calls happen here, only config.
+// PrismaAdapter(prisma) uses the Proxy so no PrismaClient is constructed
+// until the adapter is actually invoked at runtime.
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
 
@@ -17,8 +20,8 @@ export const authOptions: NextAuthOptions = {
 
   providers: [
     Google({
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
     }),
 
     Credentials({
@@ -81,12 +84,20 @@ export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-// next-auth v4: NextAuth() returns a single handler function
-export const nextAuthHandler = NextAuth(authOptions);
+// Lazy handler — NextAuth() is only called on first import of this value.
+// This prevents the NextAuth setup (which reads env vars and initialises
+// the adapter) from running during `next build` static analysis.
+let _handler: ReturnType<typeof NextAuth> | null = null;
 
-// Named exports for the App Router route file
-export const GET = nextAuthHandler;
-export const POST = nextAuthHandler;
+function getHandler() {
+  if (!_handler) {
+    _handler = NextAuth(authOptions);
+  }
+  return _handler;
+}
+
+export const GET = (...args: any[]) => (getHandler() as any)(...args);
+export const POST = (...args: any[]) => (getHandler() as any)(...args);
 
 // Server-side session helper
 export function auth() {
