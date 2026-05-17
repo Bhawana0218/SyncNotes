@@ -8,7 +8,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { Eye, EyeOff, AlertCircle, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
-import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import Image from "next/image";
 import Logo from "@/public/Logo.png";
@@ -40,6 +39,7 @@ export default function RegisterPage() {
       await axios.post("/api/register", { name, email, password });
       setSuccess(true);
 
+      const { signIn } = await import("next-auth/react");
       const result = await signIn("credentials", {
         email,
         password,
@@ -58,6 +58,11 @@ export default function RegisterPage() {
       setError(msg);
       setLoading(false);
     }
+  }
+
+  async function handleGoogleSignIn() {
+    const { signIn } = await import("next-auth/react");
+    signIn("google", { callbackUrl: "/dashboard" });
   }
 
   return (
@@ -194,7 +199,7 @@ export default function RegisterPage() {
           {/* Google */}
           <Button
             type="button"
-            onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
+            onClick={handleGoogleSignIn}
             className="w-full h-11 rounded-xl bg-white text-black flex items-center justify-center gap-3 font-medium"
           >
             <FcGoogle size={20} />

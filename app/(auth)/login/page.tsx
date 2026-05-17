@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import Link from "next/link";
@@ -23,6 +22,7 @@ export default function LoginPage() {
     setError("");
 
     const formData = new FormData(e.currentTarget);
+    const { signIn } = await import("next-auth/react");
 
     const result = await signIn("credentials", {
       email: formData.get("email"),
@@ -36,6 +36,12 @@ export default function LoginPage() {
     } else {
       window.location.href = "/dashboard";
     }
+  }
+
+  async function handleGoogleSignIn() {
+    setGoogleLoading(true);
+    const { signIn } = await import("next-auth/react");
+    signIn("google", { callbackUrl: "/dashboard" });
   }
 
   return (
@@ -147,10 +153,7 @@ export default function LoginPage() {
           {/* Google */}
           <Button
             type="button"
-            onClick={() => {
-              setGoogleLoading(true);
-              signIn("google", { callbackUrl: "/dashboard" });
-            }}
+            onClick={handleGoogleSignIn}
             disabled={googleLoading}
             className="w-full h-11 rounded-xl bg-white text-black flex items-center justify-center gap-3 font-medium"
           >

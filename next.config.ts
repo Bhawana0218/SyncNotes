@@ -1,9 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Prevent bundling of server-only Node.js packages.
-  // This also prevents duplicate React instances from packages
-  // that bundle their own copy of React (next-auth, etc.).
+  // Standalone output for deployment platforms (Vercel handles this automatically,
+  // but it also prevents Turbopack from over-bundling server-only modules).
+  output: "standalone",
+
+  // Prevent bundling of server-only Node.js packages and packages that
+  // ship their own React copy, which causes duplicate-React crashes during
+  // static page generation on Turbopack.
   serverExternalPackages: [
     "openai",
     "@prisma/client",
