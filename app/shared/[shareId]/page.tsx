@@ -4,6 +4,8 @@ import { Sparkles, Globe, ArrowLeft, Tag, Clock, Zap } from "lucide-react";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { notFound } from "next/navigation";
+import Image from "next/image";
+import Logo from "@/public/Logo.png";
 
 export async function generateMetadata({
   params,
@@ -64,8 +66,8 @@ export default async function PublicNotePage({
       <header className="sticky top-0 z-50 border-b border-zinc-900 bg-black/70 backdrop-blur-xl">
         <div className="max-w-4xl mx-auto h-16 px-6 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-8 h-8 rounded-xl bg-white flex items-center justify-center">
-              <Zap className="w-4 h-4 text-black" />
+            <div className="w-16 h-16 rounded-xl flex items-center justify-center">
+               <Image src={Logo} alt="SyncImage Logo"/>
             </div>
             <div>
               <h1 className="text-sm font-bold leading-none">SyncNotes</h1>
@@ -172,8 +174,8 @@ export default async function PublicNotePage({
 
         {/* CTA */}
         <div className="mt-16 rounded-3xl border border-zinc-800 bg-zinc-950 p-8 text-center">
-          <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center mx-auto mb-4">
-            <Zap className="w-6 h-6 text-black" />
+          <div className="w-22 h-22 rounded-2xl flex items-center justify-center mx-auto mb-4">
+            <Image src={Logo} alt="SyncImage Logo"/>
           </div>
           <h3 className="text-xl font-bold mb-2">Create your own AI workspace</h3>
           <p className="text-zinc-500 text-sm mb-5">

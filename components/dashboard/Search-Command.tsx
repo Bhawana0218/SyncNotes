@@ -11,7 +11,7 @@ import {
   CommandGroup,
   CommandItem,
 } from "@/components/ui/command";
-import { FileText, Sparkles, Search, Plus, LayoutDashboard, Archive, Settings } from "lucide-react";
+import { FileText, Sparkles, Search, Plus, LayoutDashboard, Archive, Settings, CalendarDays } from "lucide-react";
 import { useNotesStore } from "@/store/use-notes-store";
 
 interface Note {
@@ -83,6 +83,7 @@ export function SearchCommand() {
   const pages = [
     { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
     { label: "Notes", href: "/notes", icon: FileText },
+    { label: "Calendar", href: "/calendar", icon: CalendarDays },
     { label: "Archive", href: "/archive", icon: Archive },
     { label: "Settings", href: "/settings", icon: Settings },
   ];

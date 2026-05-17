@@ -3,6 +3,7 @@ import {
   FileText,
   Archive,
   Settings,
+  CalendarDays,
 } from "lucide-react";
 
 export const navigation = [
@@ -15,6 +16,11 @@ export const navigation = [
     title: "Notes",
     href: "/notes",
     icon: FileText,
+  },
+  {
+    title: "Calendar",
+    href: "/calendar",
+    icon: CalendarDays,
   },
   {
     title: "Archive",

@@ -2,41 +2,128 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ─── Brand palette ─────────────────────────────────────────────────────────
+   Derived from the SyncNotes logo: deep violet / indigo accent
+   ──────────────────────────────────────────────────────────────────────── */
+
+/* DARK theme (default) */
 :root {
-  --background: #09090b;
-  --foreground: #fafafa;
+  --background:        #0a0a0f;
+  --foreground:        #f0f0f5;
 
-  --card: #111111;
-  --card-foreground: #fafafa;
+  --card:              #111118;
+  --card-foreground:   #f0f0f5;
 
-  --popover: #111111;
-  --popover-foreground: #fafafa;
+  --popover:           #16161f;
+  --popover-foreground:#f0f0f5;
 
-  --primary: #ffffff;
-  --primary-foreground: #09090b;
+  /* Brand: violet-indigo */
+  --primary:           #7c3aed;
+  --primary-light:     #8b5cf6;
+  --primary-foreground:#ffffff;
 
-  --secondary: #18181b;
-  --secondary-foreground: #fafafa;
+  --secondary:         #1e1e2e;
+  --secondary-foreground:#c4c4d4;
 
-  --muted: #27272a;
-  --muted-foreground: #a1a1aa;
+  --muted:             #1e1e2e;
+  --muted-foreground:  #8888a0;
 
-  --accent: #18181b;
-  --accent-foreground: #fafafa;
+  --accent:            #2d1f5e;
+  --accent-foreground: #c4b5fd;
 
-  --destructive: #ef4444;
-  --border: #27272a;
-  --input: #27272a;
-  --ring: #3b82f6;
+  --destructive:       #ef4444;
+  --destructive-foreground: #fff;
 
-  --radius: 0.8rem;
+  --border:            #2a2a3d;
+  --input:             #1e1e2e;
+  --ring:              #7c3aed;
+
+  --radius:            0.8rem;
+
+  /* Sidebar */
+  --sidebar-bg:        #0d0d16;
+  --sidebar-border:    #1e1e2e;
+
+  /* Surface levels */
+  --surface-1:         #111118;
+  --surface-2:         #16161f;
+  --surface-3:         #1e1e2e;
+  --surface-hover:     #252535;
+
+  /* Text levels */
+  --text-primary:      #f0f0f5;
+  --text-secondary:    #a0a0b8;
+  --text-muted:        #606078;
+
+  /* Chart */
+  --chart-stroke:      #8b5cf6;
+  --chart-fill-start:  rgba(139,92,246,0.35);
+  --chart-fill-end:    rgba(139,92,246,0);
+  --chart-grid:        #2a2a3d;
+  --chart-axis:        #606078;
 
   --font-sans: var(--font-geist-sans), system-ui, -apple-system, sans-serif;
   --font-mono: var(--font-geist-mono), "Courier New", monospace;
 }
 
+/* LIGHT theme */
+.light {
+  --background:        #f5f5fa;
+  --foreground:        #0f0f1a;
+
+  --card:              #ffffff;
+  --card-foreground:   #0f0f1a;
+
+  --popover:           #ffffff;
+  --popover-foreground:#0f0f1a;
+
+  --primary:           #7c3aed;
+  --primary-light:     #6d28d9;
+  --primary-foreground:#ffffff;
+
+  --secondary:         #ede9fe;
+  --secondary-foreground:#4c1d95;
+
+  --muted:             #f0eeff;
+  --muted-foreground:  #6b6b8a;
+
+  --accent:            #ede9fe;
+  --accent-foreground: #5b21b6;
+
+  --destructive:       #dc2626;
+  --destructive-foreground: #fff;
+
+  --border:            #ddd8f5;
+  --input:             #ede9fe;
+  --ring:              #7c3aed;
+
+  /* Sidebar */
+  --sidebar-bg:        #ffffff;
+  --sidebar-border:    #e8e4f5;
+
+  /* Surface levels */
+  --surface-1:         #ffffff;
+  --surface-2:         #f8f7ff;
+  --surface-3:         #f0eeff;
+  --surface-hover:     #e8e4f5;
+
+  /* Text levels */
+  --text-primary:      #0f0f1a;
+  --text-secondary:    #4a4a6a;
+  --text-muted:        #9090aa;
+
+  /* Chart */
+  --chart-stroke:      #7c3aed;
+  --chart-fill-start:  rgba(124,58,237,0.2);
+  --chart-fill-end:    rgba(124,58,237,0);
+  --chart-grid:        #e8e4f5;
+  --chart-axis:        #9090aa;
+}
+
+/* ─── Base styles ────────────────────────────────────────────────────────── */
+
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
 }
@@ -53,156 +140,105 @@ body {
   overflow-x: hidden;
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--surface-3); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--surface-hover); }
 
-::-webkit-scrollbar-thumb {
-  background: #27272a;
-  border-radius: 3px;
-}
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
 
-::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
-}
+/* ─── TipTap editor ──────────────────────────────────────────────────────── */
 
-/* Hide scrollbar utility */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-/* TipTap editor styles */
-.ProseMirror {
-  outline: none;
-}
+.ProseMirror { outline: none; }
 
 .ProseMirror p.is-editor-empty:first-child::before {
-  color: #52525b;
+  color: var(--text-muted);
   content: attr(data-placeholder);
   float: left;
   height: 0;
   pointer-events: none;
 }
 
-.ProseMirror h1 {
-  font-size: 2rem;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 0.75rem;
-  margin-top: 1.5rem;
-}
-
-.ProseMirror h2 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  line-height: 1.3;
-  margin-bottom: 0.5rem;
-  margin-top: 1.25rem;
-}
-
-.ProseMirror h3 {
-  font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  margin-top: 1rem;
-}
-
-.ProseMirror p {
-  margin-bottom: 0.75rem;
-  line-height: 1.7;
-}
+.ProseMirror h1 { font-size: 2rem; font-weight: 700; line-height: 1.2; margin: 1.5rem 0 0.75rem; }
+.ProseMirror h2 { font-size: 1.5rem; font-weight: 600; line-height: 1.3; margin: 1.25rem 0 0.5rem; }
+.ProseMirror h3 { font-size: 1.25rem; font-weight: 600; margin: 1rem 0 0.5rem; }
+.ProseMirror p  { margin-bottom: 0.75rem; line-height: 1.7; color: var(--text-primary); }
 
 .ProseMirror ul,
-.ProseMirror ol {
-  padding-left: 1.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.ProseMirror li {
-  margin-bottom: 0.25rem;
-  line-height: 1.6;
-}
+.ProseMirror ol { padding-left: 1.5rem; margin-bottom: 0.75rem; }
+.ProseMirror li { margin-bottom: 0.25rem; line-height: 1.6; }
 
 .ProseMirror blockquote {
-  border-left: 3px solid #3f3f46;
+  border-left: 3px solid var(--primary);
   padding-left: 1rem;
-  color: #a1a1aa;
+  color: var(--text-secondary);
   margin: 1rem 0;
   font-style: italic;
 }
 
 .ProseMirror code {
-  background: #18181b;
-  border: 1px solid #27272a;
+  background: var(--surface-3);
+  border: 1px solid var(--border);
   border-radius: 4px;
   padding: 0.1em 0.4em;
   font-family: var(--font-mono);
   font-size: 0.875em;
-  color: #e4e4e7;
+  color: var(--primary-light);
 }
 
 .ProseMirror pre {
-  background: #18181b;
-  border: 1px solid #27272a;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
   border-radius: 8px;
   padding: 1rem;
   overflow-x: auto;
   margin: 1rem 0;
 }
 
-.ProseMirror pre code {
-  background: none;
-  border: none;
-  padding: 0;
-}
+.ProseMirror pre code { background: none; border: none; padding: 0; color: var(--text-primary); }
+.ProseMirror strong  { font-weight: 700; color: var(--text-primary); }
+.ProseMirror em      { font-style: italic; color: var(--text-secondary); }
+.ProseMirror mark    { background: rgba(139,92,246,0.25); color: inherit; border-radius: 2px; padding: 0 2px; }
+.ProseMirror s       { text-decoration: line-through; color: var(--text-muted); }
 
-.ProseMirror strong {
-  font-weight: 700;
-  color: #ffffff;
-}
+/* ─── Focus ring ─────────────────────────────────────────────────────────── */
 
-.ProseMirror em {
-  font-style: italic;
-  color: #d4d4d8;
-}
+:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 
-.ProseMirror mark {
-  background: rgba(255, 255, 0, 0.2);
-  color: inherit;
-  border-radius: 2px;
-  padding: 0 2px;
-}
+/* ─── Transitions ────────────────────────────────────────────────────────── */
 
-.ProseMirror s {
-  text-decoration: line-through;
-  color: #71717a;
-}
-
-/* Focus ring for accessibility */
-:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-/* Smooth transitions */
 * {
-  transition-property: color, background-color, border-color, opacity, transform;
+  transition-property: color, background-color, border-color, opacity, transform, box-shadow;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
 }
 
-/* Prevent transition on page load */
-.no-transition * {
-  transition: none !important;
+/* ─── Brand utility classes ──────────────────────────────────────────────── */
+
+.bg-brand         { background-color: var(--primary); }
+.bg-brand-light   { background-color: var(--primary-light); }
+.text-brand       { color: var(--primary); }
+.text-brand-light { color: var(--primary-light); }
+.border-brand     { border-color: var(--primary); }
+.ring-brand       { --tw-ring-color: var(--primary); }
+
+/* Active nav pill */
+.nav-active {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+}
+
+/* Card surface */
+.card-surface {
+  background-color: var(--surface-1);
+  border: 1px solid var(--border);
+}
+
+/* Gradient badge for AI */
+.badge-ai {
+  background: linear-gradient(135deg, var(--primary) 0%, #a855f7 100%);
+  color: #fff;
 }

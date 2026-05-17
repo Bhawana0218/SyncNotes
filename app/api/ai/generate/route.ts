@@ -11,18 +11,12 @@ export async function POST(req: Request) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const body = await req.json();
-    const { noteId, content } = body;
+    const { noteId, content } = await req.json();
 
-    if (!content || typeof content !== "string") {
-      return Response.json({ error: "Missing or invalid content" }, { status: 400 });
+    if (!noteId || typeof content !== "string") {
+      return Response.json({ error: "Invalid request" }, { status: 400 });
     }
 
-    if (!noteId) {
-      return Response.json({ error: "Missing noteId" }, { status: 400 });
-    }
-
-    // Verify ownership
     const user = await prisma.user.findUnique({
       where: { email: session.user.email },
     });
@@ -39,47 +33,84 @@ export async function POST(req: Request) {
       return Response.json({ error: "Note not found" }, { status: 404 });
     }
 
-    // Strip HTML tags for AI processing
-    const plainText = content.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+    const plainText = content
+      .replace(/<[^>]*>/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
 
     if (plainText.length < 10) {
-      return Response.json({ error: "Note content is too short to analyze" }, { status: 400 });
+      return Response.json(
+        { error: "Note too short for AI analysis" },
+        { status: 400 }
+      );
     }
 
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
         {
+          role: "system",
+          content:
+            "You are a strict JSON generator. Return ONLY valid JSON. No markdown, no backticks.",
+        },
+        {
           role: "user",
-          content: buildPrompt(plainText),
+          content: buildPrompt(plainText) + "\n\nIMPORTANT: Return ONLY JSON.",
         },
       ],
       response_format: { type: "json_object" },
-      temperature: 0.7,
-      max_tokens: 1000,
+      temperature: 0.3,
+      max_tokens: 800,
     });
 
-    const response = completion.choices[0].message.content;
+    let raw = completion.choices[0]?.message?.content;
 
-    if (!response) {
-      return Response.json({ error: "No AI response" }, { status: 500 });
+    if (!raw) {
+      return Response.json({ error: "Empty AI response" }, { status: 500 });
     }
 
-    const parsed = JSON.parse(response);
+    // 🧠 SAFE PARSE (IMPORTANT FIX)
+    let parsed;
+    try {
+      raw = raw.replace(/```json|```/g, "").trim();
+      parsed = JSON.parse(raw);
+    } catch (e) {
+      console.error("AI JSON PARSE ERROR:", raw);
+      return Response.json(
+        { error: "Invalid AI JSON response", raw },
+        { status: 500 }
+      );
+    }
+
+    // Validate expected fields exist in parsed response
+    if (!parsed.summary || !Array.isArray(parsed.actionItems) || !Array.isArray(parsed.tags)) {
+      console.error("AI response missing required fields:", parsed);
+      return Response.json(
+        { error: "AI response missing required fields", raw: parsed },
+        { status: 500 }
+      );
+    }
 
     const updatedNote = await prisma.note.update({
       where: { id: noteId },
       data: {
-        summary: parsed.summary || null,
-        actionItems: JSON.stringify(parsed.actionItems || []),
-        tags: Array.isArray(parsed.tags) ? parsed.tags.slice(0, 10) : [],
-        title: parsed.suggestedTitle || note.title,
+        summary: parsed.summary ?? "",
+        actionItems: JSON.stringify(parsed.actionItems ?? []),
+        tags: Array.isArray(parsed.tags) ? parsed.tags : [],
+        title: parsed.suggestedTitle ?? note.title,
       },
     });
 
-    return Response.json(updatedNote);
-  } catch (error) {
-    console.error("AI generation error:", error);
-    return Response.json({ error: "AI generation failed" }, { status: 500 });
+    // Return the note with the updated title field explicitly mapped
+    return Response.json({
+      ...updatedNote,
+      title: updatedNote.title,
+    });
+  } catch (error: any) {
+    console.error("AI generation error:", error?.message || error);
+    return Response.json(
+      { error: "AI generation failed" },
+      { status: 500 }
+    );
   }
 }
